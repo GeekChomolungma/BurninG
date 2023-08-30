@@ -33,17 +33,18 @@ if(WIN32)
     # Windows specific settings
     # set third part depedency
     include_directories("D:/cuda12/example/cuda-samples-master/Common")
-    target_link_libraries(mgCudaExec "D:/cuda12/example/cuda-samples-master/Common/lib/x64/*.lib")
+
+    file(GLOB CUDA_LIBS "D:/cuda12/example/cuda-samples-master/Common/lib/x64/*.lib")
+    target_link_libraries(mgCudaExec ${CUDA_LIBS})
 else()
     # Link against the found libraries
-    target_link_libraries(mgCudaExec ${BSONCXX_LIBRARIES})
-    target_link_libraries(mgCudaExec ${MONGOCXX_LIBRARIES})
+    # target_link_libraries(mgCudaExec ${BSONCXX_LIBRARIES})
+    # target_link_libraries(mgCudaExec ${MONGOCXX_LIBRARIES})
 
     # Add the include directories
-    target_include_directories(mgCudaExec PRIVATE ${BSONCXX_INCLUDE_DIRS})
-    target_include_directories(mgCudaExec PRIVATE ${MONGOCXX_INCLUDE_DIRS})
+    target_include_directories(mgCudaExec PRIVATE "/usr/local/include/bsoncxx/v_noabi") # ${BSONCXX_INCLUDE_DIRS})
+    target_include_directories(mgCudaExec PRIVATE "/usr/local/include/mongocxx/v_noabi") # ${MONGOCXX_INCLUDE_DIRS}) 
 
     # set third part depedency
     include_directories("/root/dependency/cuda12/cuda-samples-master/Common")
-    target_link_libraries(mgCudaExec "/root/dependency/cuda12/cuda-samples-master/Common/lib/x64/*.lib")
 endif()
