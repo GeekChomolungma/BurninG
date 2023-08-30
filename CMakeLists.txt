@@ -12,10 +12,11 @@ project ("BurninG" LANGUAGES CXX CUDA)
 set(CMAKE_CUDA_ARCHITECTURES 75)
 
 # Find the MONGOCXX package
-set(bsoncxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/bsoncxx-3.8.0")
+if(WIN32)
+    set(bsoncxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/bsoncxx-3.8.0")
+    set(mongocxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/mongocxx-3.8.0")
+endif()
 find_package(bsoncxx REQUIRED)
-
-set(mongocxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/mongocxx-3.8.0")
 find_package(mongocxx REQUIRED)
 
 # Add your CUDA source files and other source files
@@ -25,12 +26,24 @@ set(SOURCES
     asyncAPI.cu
 )
 
-# Set CUDA flags and properties
-# set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -arch=compute_75 -code=sm_75")  # Adjust compute capability as needed
-
 # Add source to this project's executable.
 add_executable(mgCudaExec ${SOURCES})
 
-# set third part depedency
-include_directories("D:/cuda12/example/cuda-samples-master/Common")
-target_link_libraries(mgCudaExec "D:/cuda12/example/cuda-samples-master/Common/lib/x64/*.lib")
+if(WIN32)
+    # Windows specific settings
+    # set third part depedency
+    include_directories("D:/cuda12/example/cuda-samples-master/Common")
+    target_link_libraries(mgCudaExec "D:/cuda12/example/cuda-samples-master/Common/lib/x64/*.lib")
+else()
+    # Link against the found libraries
+    target_link_libraries(mgCudaExec ${BSONCXX_LIBRARIES})
+    target_link_libraries(mgCudaExec ${MONGOCXX_LIBRARIES})
+
+    # Add the include directories
+    target_include_directories(mgCudaExec PRIVATE ${BSONCXX_INCLUDE_DIRS})
+    target_include_directories(mgCudaExec PRIVATE ${MONGOCXX_INCLUDE_DIRS})
+
+    # set third part depedency
+    include_directories("/root/dependency/cuda12/cuda-samples-master/Common")
+    target_link_libraries(mgCudaExec "/root/dependency/cuda12/cuda-samples-master/Common/lib/x64/*.lib")
+endif()

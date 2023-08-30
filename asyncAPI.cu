@@ -60,7 +60,7 @@ bool correct_output(int *data, const int n, const int x) {
   return true;
 }
 
-void kernel_wrapper(int argc, char *argv[]){
+void kernel_wrapper(int argc, const char *argv[]){
     int devID;
     cudaDeviceProp deviceProps;
 

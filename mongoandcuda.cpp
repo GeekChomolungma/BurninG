@@ -3,6 +3,13 @@
 
 #include "mongoandcuda.h"
 
+#ifdef _WIN32
+    // Windows-specific includes and definitions
+#else
+    #include <cassert>
+    // Other non-Windows includes and definitions
+#endif
+
 #include <stdio.h>
 
 #include <bsoncxx/json.hpp>
@@ -11,7 +18,7 @@
 
 using bsoncxx::builder::basic::make_document;
 using bsoncxx::builder::basic::kvp;
-void kernel_wrapper(int argc, char *argv[]);
+void kernel_wrapper(int argc,const char *argv[]);
 
 int main()
 {
@@ -57,7 +64,7 @@ int main()
     
     // for cuda process
     int argc = 0;
-    char* argv [1]= {"Burning GPU!!!"};
+    const char* argv [1]= {"Burning GPU!!!"};
     kernel_wrapper(0, argv);
     
     return 0;
