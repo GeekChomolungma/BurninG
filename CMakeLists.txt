@@ -38,8 +38,8 @@ if(WIN32)
     target_link_libraries(mgCudaExec ${CUDA_LIBS})
 else()
     # Link against the found libraries
-    # target_link_libraries(mgCudaExec ${BSONCXX_LIBRARIES})
-    # target_link_libraries(mgCudaExec ${MONGOCXX_LIBRARIES})
+    target_link_libraries(mgCudaExec "/usr/local/lib/libbsoncxx.so") # ${BSONCXX_LIBRARIES})
+    target_link_libraries(mgCudaExec "/usr/local/lib/libmongocxx.so") # ${MONGOCXX_LIBRARIES})
 
     # Add the include directories
     target_include_directories(mgCudaExec PRIVATE "/usr/local/include/bsoncxx/v_noabi") # ${BSONCXX_INCLUDE_DIRS})
