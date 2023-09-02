@@ -1,7 +1,7 @@
 ﻿// mongoandcuda.cpp : Defines the entry point for the application.
 //
 
-#include "mongoandcuda.h"
+#include "config/config.h"
 
 #ifdef _WIN32
     // Windows-specific includes and definitions
@@ -11,7 +11,6 @@
 #endif
 
 #include <stdio.h>
-
 #include <bsoncxx/json.hpp>
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
@@ -22,13 +21,16 @@ void kernel_wrapper(int argc,const char *argv[]);
 
 int main()
 {
+    Config cfg("config.ini");
+    const std::string uriCfg = cfg.getUri();
+
     try
     {
         // Create an instance.
         mongocxx::instance inst{};
 
         // Replace the connection string with your MongoDB deployment's connection string.
-        const auto uri = mongocxx::uri{"mongodb://192.168.31.79:27017"};
+        const auto uri = mongocxx::uri{uriCfg.c_str()};
 
         // Set the version of the Stable API on the client.
         mongocxx::options::client client_options;
