@@ -12,11 +12,19 @@
 
 #include <stdio.h>
 #include <bsoncxx/json.hpp>
+#include <bsoncxx/builder/basic/document.hpp>
+#include <bsoncxx/builder/basic/kvp.hpp>
+
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
+#include <mongocxx/uri.hpp>
 
+
+using bsoncxx::to_json;
+using namespace mongocxx;
 using bsoncxx::builder::basic::make_document;
 using bsoncxx::builder::basic::kvp;
+
 void kernel_wrapper(int argc,const char *argv[]);
 
 int main()
@@ -53,8 +61,6 @@ int main()
             auto eViewElement = extractedValue["starttime"];
             auto st = eViewElement.get_int64();
             std::cout << "Got synced flag time:"<< st << std::endl;
-
-
         }
         assert(find_one_result);
     }

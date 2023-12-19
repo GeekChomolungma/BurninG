@@ -10,12 +10,14 @@ project ("BurninG" LANGUAGES CXX CUDA)
 # Find the CUDA package
 # find_package(CUDA REQUIRED)
 set(CMAKE_CUDA_ARCHITECTURES 75)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find the MONGOCXX package
 if(WIN32)
     set(BOOST_ROOT "D:/boost/boost_1_83_0")
-    set(bsoncxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/bsoncxx-3.8.0")
-    set(mongocxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/mongocxx-3.8.0")
+    #set(bsoncxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/bsoncxx-3.8.0")
+    #set(mongocxx_DIR "D:/mongo-driver-cxx/mongo-cxx-driver/lib/cmake/mongocxx-3.8.0")
 endif()
 find_package(bsoncxx REQUIRED)
 find_package(mongocxx REQUIRED)
@@ -34,8 +36,8 @@ if(WIN32)
   
     # Windows specific settings
     # set third part depedency
-    include_directories("D:/cuda12/example/cuda-samples-master/Common")
-    file(GLOB CUDA_LIBS "D:/cuda12/example/cuda-samples-master/Common/lib/x64/*.lib")
+    include_directories("D:/cuda12sample/cuda-samples-12.0/cuda-samples-12.0/Common")
+    file(GLOB CUDA_LIBS "D:/cuda12sample/cuda-samples-12.0/cuda-samples-12.0/Common/lib/x64/*.lib")
     target_link_libraries(BurninG ${CUDA_LIBS})
 else()
     # Link against the found libraries
